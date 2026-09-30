@@ -13,6 +13,12 @@ app.add_middleware(
 
 JW_API = "https://b.jw-cdn.org/apis/mediator/v1"
 
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "application/json",
+    "Referer": "https://www.jw.org/",
+}
+
 @app.get("/api/videos")
 def get_videos(
     lang: str = Query("MG"),
@@ -20,7 +26,7 @@ def get_videos(
 ):
     try:
         url = f"{JW_API}/categories/{lang}/{category}?detailed=1&clientType=www"
-        resp = requests.get(url, timeout=30)
+        resp = requests.get(url, timeout=30, headers=HEADERS)
         resp.raise_for_status()
         data = resp.json()
 
